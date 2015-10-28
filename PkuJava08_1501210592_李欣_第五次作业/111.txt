@@ -1,0 +1,52 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+	/*
+	 * 递归做法
+	 */
+	public int minDepth1(TreeNode root) {
+		if(root == null) return 0;
+		if(root.left == null && root.right == null) return 1;  //当左右子树为空时特殊处理
+		int depth = 0;
+		if(root != null){
+			int lDepth, rDepth;
+			if(root.left == null) lDepth = Integer.MAX_VALUE; //保证到达叶子节点
+			else lDepth = minDepth1(root.left);
+			if(root.right == null) rDepth = Integer.MAX_VALUE;
+			else rDepth = minDepth1(root.right);
+			depth = lDepth < rDepth ? lDepth+1 : rDepth+1;
+		}
+		return depth;
+	}
+	
+	/*
+	 * 非递归做法
+	 */
+	public int minDepth2(TreeNode root) {
+		if(root == null) return 0;
+		ArrayList<TreeNode> tree = new ArrayList<TreeNode>();		
+		tree.add(root);
+		int depth = 1;
+		int start = 0;
+		int end = 0;
+		while(!tree.isEmpty()){
+			start = end;
+			end = tree.size();   //用start和end记录当前层节点的位置
+			for(int i = start; i<end; i++){
+				if(tree.get(i).left == null && tree.get(i).right == null) return depth;
+				if(tree.get(i).left != null) tree.add(tree.get(i).left);
+				if(tree.get(i).right != null) tree.add(tree.get(i).right);
+			}
+			depth++;
+		}
+		return depth;
+	}
+
+}
