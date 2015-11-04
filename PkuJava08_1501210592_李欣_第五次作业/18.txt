@@ -1,0 +1,33 @@
+public class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+		Arrays.sort(nums);
+		for(int i = 0; i<nums.length-3; i++){		 			//第一个元素
+			if(i>0 && nums[i]==nums[i-1]) continue;  			//避免存入重复triplet
+			for(int j = i+1; j<nums.length-2; j++){ 			//第二个元素
+				if(nums[j] == nums[j-1] && j>i+1) continue;     //避免存入重复triplet
+				int t = j+1;                     		 		//第三个元素
+				int f = nums.length-1;          			    //第四个元素
+				while(t<f){
+					if(nums[t] == nums[t-1] && t>j+1){  		//避免存入重复triplet
+						t++;
+					}else if(nums[t]+nums[f] == target-nums[i]-nums[j]){
+						ArrayList<Integer> triplet = new ArrayList<Integer>();
+						triplet.add(nums[i]);
+						triplet.add(nums[j]);
+						triplet.add(nums[t]);
+						triplet.add(nums[f]);
+						result.add(triplet);
+						t++;
+						f--;
+					}else if(nums[t]+nums[f] > target-nums[i]-nums[j]){
+						f--;
+					}else{
+						t++;
+					}
+				}
+			}
+		}
+    	return result;
+    }
+}
