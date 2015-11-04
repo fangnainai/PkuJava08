@@ -1,0 +1,40 @@
+package LeetCode;
+
+import java.util.LinkedList;
+
+public class ImplementStackUsingQueues225 {
+	LinkedList<Integer> queue = new LinkedList<Integer>();
+    LinkedList<Integer> temp = new LinkedList<Integer>(); //¸¨Öú¶ÓÁÐ
+    // Push element x onto stack.
+    public void push(int x) {
+        temp.add(x); //add to the tail
+        while(!queue.isEmpty()){
+    		temp.add(queue.poll()); //poll:Retrieves and removes the head 
+    	}
+        queue = temp;
+        LinkedList<Integer> list = new LinkedList<Integer>();
+        temp = list;
+    }
+
+    // Removes the element on top of the stack.
+    public void pop() {
+    	queue.poll();
+    }
+
+    // Get the top element.
+    public int top() {
+        return queue.peek();
+    }
+
+    // Return whether the stack is empty.
+    public boolean empty() {
+        return queue.isEmpty();
+    }
+    
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		ImplementStackUsingQueues225 a = new ImplementStackUsingQueues225();
+		a.push(1);
+		a.top();
+	}
+}

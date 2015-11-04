@@ -1,0 +1,31 @@
+/*
+ * 经典题目，上课已经讲过。利用快慢指针速度差
+ */
+public class LinkedListCycle141 {
+	public boolean hasCycle(ListNode head) {
+		ListNode slow = head, fast = head;
+		while(true){
+			if(slow != null && fast != null && fast.next != null){				
+				slow = slow.next;
+				fast = fast.next.next;
+				if(slow == fast) return true;
+			}else return false;
+		}
+	}
+	public ListNode detectCycle(ListNode head) {
+		ListNode slow = head, fast = head;
+		while(true){
+			if(slow != null && fast != null && fast.next != null){				
+				slow = slow.next;
+				fast = fast.next.next;
+				if(slow == fast) break; //相遇，表示有环
+			}else return null;
+		}
+		//一个从head出发，一个从相遇位置出发，相遇的地方即环所在处
+		while(slow != head){
+			head = head.next;
+			slow = slow.next;
+		}
+		return slow;
+	}
+}
