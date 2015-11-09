@@ -1,0 +1,23 @@
+/*
+ * 罗马数字拼写规则Wikipedia：http://zh.wikipedia.org/wiki/%E7%BD%97%E9%A9%AC%E6%95%B0%E5%AD%97
+ * 对解这道题有帮助的内容：
+
+左减的数字有限制，仅限于I、X、C。比如45不可以写成VL，只能是XLV
+但是，左減時不可跨越一個位數。比如，99不可以用IC（100 - 1）表示，而是用XCIX（[100 - 10] + [10 - 1]）表示。（等同於阿拉伯數字每位數字分別表示。）
+左減數字必須為一位，比如8寫成VIII，而非IIX。
+有以上三个内容我们可以发现在减数的时候有特定的规律，就是只能减1位且不能跨越一个位数，同时只限于I X C。
+ */
+public class Integer2Roman12 {
+	public String intToRoman(int num) {
+		String res = "";
+		String[] roman = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+		int[] numb = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+		for (int i = 0; i < roman.length; i++) {
+			while(num >= numb[i]) {
+				res += roman[i];
+				num -= numb[i];
+			}
+		}
+		return res;
+	}
+}

@@ -1,0 +1,20 @@
+	public int romanToInt(String s) {
+		if(s.isEmpty()) return 0;
+		HashMap<String,Integer> roman = new HashMap<String,Integer>();
+		roman.put("I", 1);
+		roman.put("V", 5);
+		roman.put("X", 10);
+		roman.put("L", 50);
+		roman.put("C", 100);
+		roman.put("D", 500);
+		roman.put("M", 1000);
+		int num = roman.get(String.valueOf(s.charAt(0)));
+		for(int i = 1; i<s.length(); i++){
+			if(roman.get(String.valueOf(s.charAt(i-1)))<roman.get(String.valueOf(s.charAt(i)))){
+				num = num - 2*roman.get(String.valueOf(s.charAt(i-1))) + roman.get(String.valueOf(s.charAt(i)));
+			}else{
+				num += roman.get(String.valueOf(s.charAt(i)));
+			}
+		}
+		return num;
+	}
