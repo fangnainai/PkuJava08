@@ -1,0 +1,86 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.StringTokenizer;
+import java.util.Map.Entry;
+
+public class WordCount {
+	Map<String,Integer> map =  new HashMap<String, Integer>(); //Integer存放单词的来源：1表示file1,2表示file2,0表示file1和file2共有
+	boolean isFile1 = true;
+	
+	//统计文件单词数（含重复单词）
+	public int wordCount(String filename){		
+		File file1 = new File(filename);
+		BufferedReader reader = null;
+		int wordcount = 0;
+		try{
+			reader = new BufferedReader(new FileReader(file1));
+			StringBuffer sb = new StringBuffer();
+			String tempString;
+            while ((tempString = reader.readLine()) != null) {
+            	sb.append(tempString);
+            }
+            StringTokenizer st = new StringTokenizer(sb.toString(),"\'\":,.!?\t\f\r \n");
+            wordcount = 0;
+            while(st.hasMoreTokens()){
+            	wordcount++;
+            	String word = st.nextToken(); 
+            	if(map.containsKey(word)){
+            		if(!isFile1)
+            			map.put(word, 0);
+            	}else{
+            		if(isFile1)
+            			map.put(word,1);
+            		else
+            			map.put(word,2);
+            	}
+            }
+            isFile1 = false;
+            reader.close();
+		}catch(IOException e){
+			System.out.println("文件读取异常");
+			e.printStackTrace();			
+		}
+		return wordcount;
+	}
+
+	//打印两个文件的总词汇表（并集），并输出词数（无重复）
+	public void unionWord(){
+		System.out.println("---------------总和词汇表---------------");
+		Iterator<Entry<String, Integer>> it = map.entrySet().iterator();  
+		while (it.hasNext()) {  
+			Entry<String, Integer> e = (Entry<String, Integer>)it.next(); 
+			System.out.println(e.getKey());
+		}
+		System.out.println("共计词数："+map.size());
+	}
+	
+	//打印两个文件的重合词汇表（交集），并输出词数（无重复）
+	public void interWord(){
+		System.out.println("---------------重合词汇表---------------");
+		int count = 0;
+		Iterator<Entry<String, Integer>> it = map.entrySet().iterator();  
+		while (it.hasNext()) {  
+			Entry<String, Integer> e = (Entry<String, Integer>)it.next(); 
+			if(e.getValue() == 0){
+				count++;
+				System.out.println(e.getKey());
+			}			
+		}
+		System.out.println("重合词数："+count);
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		WordCount test = new WordCount();
+		System.out.println("file1共计词数："+test.wordCount("D:\\file1.txt"));
+		System.out.println("file2共计词数："+test.wordCount("D:\\file2.txt"));
+		test.unionWord();
+		test.interWord();
+	}
+
+}
